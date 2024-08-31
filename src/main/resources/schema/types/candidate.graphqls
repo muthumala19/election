@@ -1,0 +1,10 @@
+type Candidate {
+    candidateId: Int!
+    electionId: Int!
+    name: String!
+    biography: String
+    imageUrl: String
+    createdDateTime: DateTime!
+    updatedDateTime: DateTime!
+    votes: [Vote]
+}

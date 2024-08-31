@@ -1,0 +1,11 @@
+type Vote {
+    voteId: Int!
+    userId: Int!
+    electionId: Int!
+    firstChoiceCandidateId: Int
+    secondChoiceCandidateId: Int
+    thirdChoiceCandidateId: Int
+    timestamp: DateTime!
+    ipAddress: String
+    userAgent: String
+}
