@@ -1,9 +1,7 @@
 package com.example.election.data_fetcher;
 
 import com.netflix.graphql.dgs.DgsComponent;
-import com.netflix.graphql.dgs.DgsQuery;
 
-import java.util.List;
 import java.util.logging.Logger;
 
 @DgsComponent
