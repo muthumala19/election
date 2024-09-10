@@ -73,6 +73,16 @@
             <artifactId>graphql-dgs</artifactId>
             <version>5.5.1</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+            <version>3.3.3</version>
+        </dependency>
+		<dependency>
+			<groupId>org.modelmapper</groupId>
+			<artifactId>modelmapper</artifactId>
+			<version>2.4.5</version>
+		</dependency>
     </dependencies>
 	<build>
 		<plugins>

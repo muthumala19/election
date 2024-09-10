@@ -1,4 +1,4 @@
-package com.example.election.entity;
+package com.example.election.entities;
 
 import com.example.election.enums.ElectionStatus;
 import jakarta.persistence.*;
