@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 
 @DgsComponent
 public class ElectionDataFetcher {
-    private static Logger logger = Logger.getLogger(ElectionDataFetcher.class.getName());
+    private static final Logger logger = Logger.getLogger(ElectionDataFetcher.class.getName());
     private final ElectionService electionService;
 
     public ElectionDataFetcher(ElectionService electionService) {
