@@ -35,6 +35,13 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.graphql-java-kickstart/graphql-java-tools -->
+		<dependency>
+			<groupId>com.graphql-java-kickstart</groupId>
+			<artifactId>graphql-java-tools</artifactId>
+			<version>13.1.1</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-graphql</artifactId>
@@ -83,6 +90,12 @@
 			<artifactId>modelmapper</artifactId>
 			<version>2.4.5</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.graphql-java/graphql-java-extended-scalars -->
+		<dependency>
+			<groupId>com.graphql-java</groupId>
+			<artifactId>graphql-java-extended-scalars</artifactId>
+			<version>22.0</version>
+		</dependency>
     </dependencies>
 	<build>
 		<plugins>
@@ -107,7 +120,7 @@
 					<addGeneratedAnnotation>true</addGeneratedAnnotation>
 					<disableDatesInGeneratedAnnotation>true</disableDatesInGeneratedAnnotation>
 					<schemaPaths>
-						<param>src/main/resources/schema/types/</param>
+						<param>src/main/resources/graphql/</param>
 					</schemaPaths>
 					<packageName>com.example.election.generated</packageName>
 				</configuration>

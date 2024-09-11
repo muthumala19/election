@@ -3,7 +3,9 @@ package com.example.election.data_fetchers;
 import com.example.election.generated.types.Election;
 import com.example.election.services.ElectionService;
 import com.netflix.graphql.dgs.DgsComponent;
+import com.netflix.graphql.dgs.DgsDataFetchingEnvironment;
 import com.netflix.graphql.dgs.DgsQuery;
+import com.netflix.graphql.dgs.InputArgument;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -18,10 +20,20 @@ public class ElectionDataFetcher {
     }
 
     @DgsQuery
-    public List<Election> getAllElections() {
+    public List<Election> getElections() {
         logger.info("ElectionDataFetcher.java: entered getAllElections()");
         List<Election> elections = electionService.getElections();
         logger.info("ElectionDataFetcher.java: exited getAllElections()");
         return elections;
     }
+
+    @DgsQuery
+    public Election getElectionById(@InputArgument DgsDataFetchingEnvironment dfe) {
+        logger.info("ElectionDataFetcher.java: entered getElection()");
+        Integer electionId = dfe.getArgument("electionId");
+        Election election = electionService.getElectionById(electionId);
+        logger.info("ElectionDataFetcher.java: exited getElection()");
+        return election;
+    }
+
 }

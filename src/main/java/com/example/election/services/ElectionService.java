@@ -25,4 +25,12 @@ public class ElectionService {
         logger.info("ElectionService.java: exited getElections()");
         return elections;
     }
+
+    public Election getElectionById(Integer electionId) {
+        logger.info("ElectionService.java: entered getElectionById()");
+        ElectionBean electionBean = electionRepository.findById(Long.valueOf(electionId)).orElse(null);
+        Election election = electionMapper.map(electionBean, Election.class);
+        logger.info("ElectionService.java: exited getElectionById()");
+        return election;
+    }
 }

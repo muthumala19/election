@@ -1,5 +1,5 @@
 type Election {
-    electionId: ID!
+    electionId: Int!
     electionName: String!
     description: String
     startDateTime: DateTime!
