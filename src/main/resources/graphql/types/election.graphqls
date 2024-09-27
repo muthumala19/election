@@ -2,20 +2,20 @@ type Election {
     electionId: Int!
     electionName: String!
     description: String
-    startDateTime: DateTime!
-    endDateTime: DateTime!
+    startDateTime: DateTime
+    endDateTime: DateTime
     status: ElectionStatus!
     isAnonymous: Boolean!
-    createdDateTime: DateTime!
-    updatedDateTime: DateTime!
+    createdDateTime: DateTime
+    updatedDateTime: DateTime
     createdBy: Int!
     candidates: [Candidate]
     votes: [Vote]
 }
 
 enum ElectionStatus {
-    CREATED
-    STARTED
-    ENDED
-    CANCELLED
+    UPCOMING,
+    ONGOING,
+    COMPLETED,
+    CANCELLED,
 }

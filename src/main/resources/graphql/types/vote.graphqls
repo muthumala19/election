@@ -5,7 +5,7 @@ type Vote {
     firstChoiceCandidateId: Int
     secondChoiceCandidateId: Int
     thirdChoiceCandidateId: Int
-    timestamp: DateTime!
+    timestamp: DateTime
     ipAddress: String
     userAgent: String
 }
