@@ -6,11 +6,14 @@ import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsDataFetchingEnvironment;
 import com.netflix.graphql.dgs.DgsQuery;
 import com.netflix.graphql.dgs.InputArgument;
+import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.stereotype.Controller;
 
 import java.util.List;
 import java.util.logging.Logger;
 
 @DgsComponent
+@Controller
 public class ElectionDataFetcher {
     private static final Logger logger = Logger.getLogger(ElectionDataFetcher.class.getName());
     private final ElectionService electionService;
@@ -19,21 +22,19 @@ public class ElectionDataFetcher {
         this.electionService = electionService;
     }
 
-    @DgsQuery
+    @DgsQuery@QueryMapping
     public List<Election> getElections() {
-        logger.info("ElectionDataFetcher.java: entered getAllElections()");
+        logger.info("ElectionDataFetcher.java: entered getElections()");
         List<Election> elections = electionService.getElections();
-        logger.info("ElectionDataFetcher.java: exited getAllElections()");
+        logger.info("ElectionDataFetcher.java: exited getElections()");
         return elections;
     }
 
-    @DgsQuery
-    public Election getElectionById(@InputArgument DgsDataFetchingEnvironment dfe) {
+    @DgsQuery@QueryMapping
+    public Election getElectionById(@InputArgument("electionId") Integer electionId,DgsDataFetchingEnvironment dfe) {
         logger.info("ElectionDataFetcher.java: entered getElection()");
-        Integer electionId = dfe.getArgument("electionId");
         Election election = electionService.getElectionById(electionId);
         logger.info("ElectionDataFetcher.java: exited getElection()");
         return election;
     }
-
 }
