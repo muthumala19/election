@@ -3,7 +3,6 @@ package com.example.election.data_fetchers;
 import com.example.election.generated.types.Election;
 import com.example.election.services.ElectionService;
 import com.netflix.graphql.dgs.DgsComponent;
-import com.netflix.graphql.dgs.DgsDataFetchingEnvironment;
 import com.netflix.graphql.dgs.DgsQuery;
 import com.netflix.graphql.dgs.InputArgument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
