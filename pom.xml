@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -35,13 +35,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.graphql-java-kickstart/graphql-java-tools -->
 		<dependency>
 			<groupId>com.graphql-java-kickstart</groupId>
 			<artifactId>graphql-java-tools</artifactId>
 			<version>13.1.1</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-graphql</artifactId>
@@ -75,28 +73,22 @@
 			<artifactId>spring-graphql-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-        <dependency>
-            <groupId>com.netflix.graphql.dgs</groupId>
-            <artifactId>graphql-dgs</artifactId>
-            <version>5.5.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-jpa</artifactId>
-            <version>3.3.3</version>
-        </dependency>
+		<dependency>
+			<groupId>com.netflix.graphql.dgs</groupId>
+			<artifactId>graphql-dgs</artifactId>
+			<version>5.5.1</version>
+		</dependency>
 		<dependency>
 			<groupId>org.modelmapper</groupId>
 			<artifactId>modelmapper</artifactId>
 			<version>2.4.5</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.graphql-java/graphql-java-extended-scalars -->
 		<dependency>
 			<groupId>com.graphql-java</groupId>
 			<artifactId>graphql-java-extended-scalars</artifactId>
 			<version>22.0</version>
 		</dependency>
-    </dependencies>
+	</dependencies>
 	<build>
 		<plugins>
 			<plugin>
@@ -115,7 +107,7 @@
 					<addGeneratedAnnotation>false</addGeneratedAnnotation>
 					<generateDocs>true</generateDocs>
 					<typeMappingPropertiesFiles>
-						<typeMappingPropertiesFile>graphql/common-type-mappings.properties</typeMappingPropertiesFile>
+						<typeMappingPropertiesFile>src/main/resources/graphql/common-type-mappings.properties</typeMappingPropertiesFile>
 					</typeMappingPropertiesFiles>
 					<addGeneratedAnnotation>true</addGeneratedAnnotation>
 					<disableDatesInGeneratedAnnotation>true</disableDatesInGeneratedAnnotation>
@@ -156,5 +148,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>
