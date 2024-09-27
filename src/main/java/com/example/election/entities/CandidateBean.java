@@ -6,14 +6,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(schema = "online_voting_system", name = "candidate")
+@Table(schema = "public", name = "candidate")
 public class CandidateBean {
 
     @Id
@@ -34,14 +34,14 @@ public class CandidateBean {
     private int electionId;
 
     @Column(name = "created_date", nullable = false)
-    private LocalDateTime createdDate = LocalDateTime.now();
+    private OffsetDateTime createdDate = OffsetDateTime.now();
 
     @Column(name = "updated_date", nullable = false)
-    private LocalDateTime updatedDate = LocalDateTime.now();
+    private OffsetDateTime updatedDate = OffsetDateTime.now();
 
     @PreUpdate
     protected void onUpdate() {
-        updatedDate = LocalDateTime.now();
+        updatedDate = OffsetDateTime.now();
     }
 
 }

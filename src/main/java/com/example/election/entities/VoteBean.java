@@ -6,14 +6,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(schema = "online_voting_system", name = "vote")
+@Table(schema = "public", name = "vote")
 public class VoteBean {
 
     @Id
@@ -37,7 +37,7 @@ public class VoteBean {
     private int voterId;
 
     @Column(name = "timestamp")
-    private LocalDateTime timestamp;
+    private OffsetDateTime timestamp;
 
     @Column(name = "ip_address")
     private String ipAddress;
