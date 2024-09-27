@@ -5,14 +5,11 @@ import com.example.election.services.ElectionService;
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsQuery;
 import com.netflix.graphql.dgs.InputArgument;
-import org.springframework.graphql.data.method.annotation.QueryMapping;
-import org.springframework.stereotype.Controller;
 
 import java.util.List;
 import java.util.logging.Logger;
 
 @DgsComponent
-@Controller
 public class ElectionDataFetcher {
     private static final Logger logger = Logger.getLogger(ElectionDataFetcher.class.getName());
     private final ElectionService electionService;
@@ -21,7 +18,7 @@ public class ElectionDataFetcher {
         this.electionService = electionService;
     }
 
-    @DgsQuery@QueryMapping
+    @DgsQuery
     public List<Election> getElections() {
         logger.info("ElectionDataFetcher.java: entered getElections()");
         List<Election> elections = electionService.getElections();
@@ -29,7 +26,7 @@ public class ElectionDataFetcher {
         return elections;
     }
 
-    @DgsQuery@QueryMapping
+    @DgsQuery
     public Election getElectionById(@InputArgument("electionId") Integer electionId) {
         logger.info("ElectionDataFetcher.java: entered getElection()");
         Election election = electionService.getElectionById(electionId);
