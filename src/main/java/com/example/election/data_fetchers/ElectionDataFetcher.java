@@ -31,7 +31,7 @@ public class ElectionDataFetcher {
     }
 
     @DgsQuery@QueryMapping
-    public Election getElectionById(@InputArgument("electionId") Integer electionId,DgsDataFetchingEnvironment dfe) {
+    public Election getElectionById(@InputArgument("electionId") Integer electionId) {
         logger.info("ElectionDataFetcher.java: entered getElection()");
         Election election = electionService.getElectionById(electionId);
         logger.info("ElectionDataFetcher.java: exited getElection()");
