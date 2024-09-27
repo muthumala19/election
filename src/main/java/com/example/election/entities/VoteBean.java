@@ -34,7 +34,7 @@ public class VoteBean {
     private Integer thirdChoiceCandidateId;
 
     @Column(name = "voter_id", nullable = false)
-    private int voterId;
+    private Integer voterId;
 
     @Column(name = "timestamp")
     private OffsetDateTime timestamp;
