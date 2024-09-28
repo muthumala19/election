@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Entity
 @Getter
@@ -25,7 +25,7 @@ public class CandidateBean {
     private String candidateName;
 
     @Column(name = "bio")
-    private String bio;
+    private String biography;
 
     @Column(name = "created_by", nullable = false)
     private int createdBy;
@@ -34,14 +34,17 @@ public class CandidateBean {
     private int electionId;
 
     @Column(name = "created_date", nullable = false)
-    private LocalDateTime createdDate = LocalDateTime.now();
+    private OffsetDateTime createdDate = OffsetDateTime.now();
 
     @Column(name = "updated_date", nullable = false)
-    private LocalDateTime updatedDate = LocalDateTime.now();
+    private OffsetDateTime updatedDate = OffsetDateTime.now();
+
+    @Column(name="image_url")
+    private String imageUrl;
 
     @PreUpdate
     protected void onUpdate() {
-        updatedDate = LocalDateTime.now();
+        updatedDate = OffsetDateTime.now();
     }
 
 }
