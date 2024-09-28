@@ -6,7 +6,6 @@ import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsQuery;
 import com.netflix.graphql.dgs.InputArgument;
 
-import java.util.List;
 import java.util.logging.Logger;
 
 @DgsComponent
