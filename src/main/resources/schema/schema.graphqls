@@ -9,4 +9,5 @@ type Query {
     getCandidateById(candidateId: Int!): Candidate
 
     ## Vote Queries
+    getVoteById(voteId: Int!): Vote
 }

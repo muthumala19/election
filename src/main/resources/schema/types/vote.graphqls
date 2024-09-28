@@ -1,6 +1,6 @@
 type Vote {
     voteId: Int!
-    userId: Int!
+    voterId: Int!
     electionId: Int!
     firstChoiceCandidateId: Int
     secondChoiceCandidateId: Int
