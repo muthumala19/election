@@ -3,8 +3,9 @@ type Candidate {
     electionId: Int!
     name: String!
     biography: String
-    imageUrl: String
+    createdBy: Int!
     createdDateTime: DateTime
     updatedDateTime: DateTime
+    imageUrl: String
     votes: [Vote]
 }

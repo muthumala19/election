@@ -9,6 +9,7 @@ type Election {
     createdDateTime: DateTime
     updatedDateTime: DateTime
     createdBy: Int!
+    registeredNumberOfVotes: Int
     candidates: [Candidate]
     votes: [Vote]
 }

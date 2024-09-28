@@ -1,5 +1,12 @@
 scalar DateTime
 type Query {
+    ## Election Queries
     getElections: [Election]
     getElectionById(electionId: Int!): Election
+
+    ## Candidate Queries
+    getCandidatesOfElection(electionId:Int!): [Candidate]
+    getCandidateById(candidateId: Int!): Candidate
+
+    ## Vote Queries
 }
