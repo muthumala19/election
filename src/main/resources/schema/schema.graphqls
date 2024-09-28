@@ -1,5 +1,4 @@
 scalar DateTime
-
 type Query {
     getElections: [Election]
     getElectionById(electionId: Int!): Election
