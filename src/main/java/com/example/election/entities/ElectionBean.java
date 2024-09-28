@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -29,10 +29,10 @@ public class ElectionBean {
     private String description;
 
     @Column(name = "start_date", nullable = false)
-    private OffsetDateTime startDateTime;
+    private LocalDateTime startDateTime;
 
     @Column(name = "end_date", nullable = false)
-    private OffsetDateTime endDateTime;
+    private LocalDateTime endDateTime;
 
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -48,13 +48,13 @@ public class ElectionBean {
     private boolean isAnonymous;
 
     @Column(name = "created_date", nullable = false)
-    private OffsetDateTime createdDate = OffsetDateTime.now();
+    private LocalDateTime createdDate = LocalDateTime.now();
 
     @Column(name = "updated_date", nullable = false)
-    private OffsetDateTime updatedDate = OffsetDateTime.now();
+    private LocalDateTime updatedDate = LocalDateTime.now();
 
     @PreUpdate
     protected void onUpdate() {
-        updatedDate = OffsetDateTime.now();
+        updatedDate = LocalDateTime.now();
     }
 }

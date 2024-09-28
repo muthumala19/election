@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -37,7 +37,7 @@ public class VoteBean {
     private Integer voterId;
 
     @Column(name = "timestamp")
-    private OffsetDateTime timestamp;
+    private LocalDateTime timestamp;
 
     @Column(name = "ip_address")
     private String ipAddress;
