@@ -1,0 +1,9 @@
+input ElectionInput{
+    electionName: String!
+    description: String
+    startDateTime: DateTime!
+    endDateTime: DateTime!
+    isAnonymous: Boolean!
+    registeredNumberOfVotes: Int
+#    candidates: [CandidateInput]
+}

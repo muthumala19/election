@@ -44,4 +44,15 @@ public class VoteBean {
 
     @Column(name = "user_agent")
     private String userAgent;
+
+    @PrePersist
+    protected void onCreate() {
+        OffsetDateTime now = OffsetDateTime.now();
+        this.timestamp = now;
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.timestamp = OffsetDateTime.now();
+    }
 }

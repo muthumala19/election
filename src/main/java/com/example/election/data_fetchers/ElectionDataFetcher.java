@@ -1,8 +1,10 @@
 package com.example.election.data_fetchers;
 
 import com.example.election.generated.types.Election;
+import com.example.election.generated.types.ElectionInput;
 import com.example.election.services.ElectionService;
 import com.netflix.graphql.dgs.DgsComponent;
+import com.netflix.graphql.dgs.DgsMutation;
 import com.netflix.graphql.dgs.DgsQuery;
 import com.netflix.graphql.dgs.InputArgument;
 
@@ -31,6 +33,14 @@ public class ElectionDataFetcher {
         logger.info("ElectionDataFetcher.java: entered getElection()");
         Election election = electionService.getElectionById(electionId);
         logger.info("ElectionDataFetcher.java: exited getElection()");
+        return election;
+    }
+
+    @DgsMutation
+    public Election createElection(@InputArgument("input") ElectionInput electionInput) {
+        logger.info("ElectionDataFetcher.java: entered createElection()");
+        Election election = electionService.createElection(electionInput);
+        logger.info("ElectionDataFetcher.java: exited createElection()");
         return election;
     }
 }

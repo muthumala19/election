@@ -1,0 +1,6 @@
+input CandidateInput{
+    electionId: Int!
+    name: String!
+    biography: String
+    imageUrl: String
+}

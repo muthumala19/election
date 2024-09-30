@@ -39,7 +39,7 @@ public class ElectionBean {
     private ElectionStatus status;
 
     @Column(name = "registered_number_of_votes", nullable = false)
-    private int registeredNumberOfVotes = 0;
+    private int registeredNumberOfVotes = 50;
 
     @Column(name = "created_by", nullable = false)
     private int createdBy;
@@ -48,13 +48,20 @@ public class ElectionBean {
     private boolean isAnonymous;
 
     @Column(name = "created_date", nullable = false)
-    private OffsetDateTime createdDate = OffsetDateTime.now();
+    private OffsetDateTime createdDate;
 
     @Column(name = "updated_date", nullable = false)
-    private OffsetDateTime updatedDate = OffsetDateTime.now();
+    private OffsetDateTime updatedDate;
+
+    @PrePersist
+    protected void onCreate() {
+        OffsetDateTime now = OffsetDateTime.now();
+        this.createdDate = now;
+        this.updatedDate = now;
+    }
 
     @PreUpdate
     protected void onUpdate() {
-        updatedDate = OffsetDateTime.now();
+        this.updatedDate = OffsetDateTime.now();
     }
 }
