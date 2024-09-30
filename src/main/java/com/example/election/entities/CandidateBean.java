@@ -47,4 +47,11 @@ public class CandidateBean {
         updatedDate = OffsetDateTime.now();
     }
 
+    @PrePersist
+    protected void onCreate() {
+        OffsetDateTime now = OffsetDateTime.now();
+        this.createdDate = now;
+        this.updatedDate = now;
+    }
+
 }

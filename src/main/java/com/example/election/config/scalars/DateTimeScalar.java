@@ -1,4 +1,4 @@
-package com.example.election.scalars;
+package com.example.election.config.scalars;
 
 import com.netflix.graphql.dgs.DgsScalar;
 import graphql.language.StringValue;
