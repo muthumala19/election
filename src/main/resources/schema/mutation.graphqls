@@ -3,8 +3,7 @@ type Mutation{
     createElection(input:ElectionInput!): Election
 
     ## candidate mutation
-    createCandidate(input:CandidateInput!): Candidate
-    createCandidates(input:[CandidateInput!]!): [Candidate]
+    createCandidates(input:CandidatesInput!): [Candidate]
 
     ## vote mutation
 

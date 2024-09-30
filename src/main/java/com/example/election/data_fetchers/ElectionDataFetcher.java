@@ -7,6 +7,7 @@ import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsMutation;
 import com.netflix.graphql.dgs.DgsQuery;
 import com.netflix.graphql.dgs.InputArgument;
+import jakarta.transaction.Transactional;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -37,6 +38,7 @@ public class ElectionDataFetcher {
     }
 
     @DgsMutation
+    @Transactional
     public Election createElection(@InputArgument("input") ElectionInput electionInput) {
         logger.info("ElectionDataFetcher.java: entered createElection()");
         Election election = electionService.createElection(electionInput);

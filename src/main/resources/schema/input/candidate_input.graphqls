@@ -1,5 +1,8 @@
-input CandidateInput{
+input CandidatesInput{
     electionId: Int!
+    candidates: [CandidateInput!]!
+}
+input CandidateInput{
     name: String!
     biography: String
     imageUrl: String
