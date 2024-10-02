@@ -1,4 +1,4 @@
-package com.example.election;
+package com.example.election.config;
 
 import com.example.election.mappers.Mapper;
 import org.springframework.context.annotation.Bean;
