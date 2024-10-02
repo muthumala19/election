@@ -12,7 +12,9 @@ import java.util.logging.Logger;
 @Service
 public class VoteService {
     private static final Logger logger = Logger.getLogger(VoteService.class.getName());
-    Mapper voteMapper = new Mapper();
+
+    @Autowired
+    private Mapper voteMapper;
 
     @Autowired
     private VoteRepository voteRepository;

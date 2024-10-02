@@ -18,9 +18,10 @@ import java.util.logging.Logger;
 @Service
 public class ElectionService {
     private static final Logger logger = Logger.getLogger(ElectionService.class.getName());
-    Mapper electionMapper = new Mapper();
-
     private final CandidateService candidateService;
+
+    @Autowired
+    private Mapper electionMapper;
 
     @Autowired
     private ElectionRepository electionRepository;
