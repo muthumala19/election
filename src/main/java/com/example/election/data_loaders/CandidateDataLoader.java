@@ -6,13 +6,13 @@ import com.example.election.services.CandidateService;
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsData;
 import com.netflix.graphql.dgs.DgsDataFetchingEnvironment;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 @DgsComponent
+@Slf4j
 public class CandidateDataLoader {
-    private static final Logger logger = Logger.getLogger(CandidateDataLoader.class.getName());
     private final CandidateService candidateService;
 
     public CandidateDataLoader(CandidateService candidateService) {
@@ -21,10 +21,10 @@ public class CandidateDataLoader {
 
     @DgsData(parentType = "Election", field = "candidates")
     public List<Candidate> getCandidates(DgsDataFetchingEnvironment dfe) {
-        logger.info("CandidateDataLoader.java: entered getCandidates()");
+        log.info("CandidateDataLoader.java: entered getCandidates()");
         Election election = dfe.getSource();
         List<Candidate> candidates = candidateService.getCandidatesByElectionId(election.getElectionId());
-        logger.info("CandidateDataLoader.java: exited getCandidates()");
+        log.info("CandidateDataLoader.java: exited getCandidates()");
         return candidates;
     }
 }

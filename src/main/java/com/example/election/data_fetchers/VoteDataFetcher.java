@@ -5,12 +5,11 @@ import com.example.election.services.VoteService;
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsQuery;
 import com.netflix.graphql.dgs.InputArgument;
-
-import java.util.logging.Logger;
+import lombok.extern.slf4j.Slf4j;
 
 @DgsComponent
+@Slf4j
 public class VoteDataFetcher {
-    private static final Logger logger = Logger.getLogger(VoteDataFetcher.class.getName());
     private final VoteService voteService;
 
     public VoteDataFetcher(VoteService voteService) {
@@ -19,9 +18,9 @@ public class VoteDataFetcher {
 
     @DgsQuery
     public Vote getVoteById(@InputArgument("voteId") Integer voteId) {
-        logger.info("VoteDataFetcher.java: entered getVoteById()");
+        log.info("VoteDataFetcher.java: entered getVoteById()");
         Vote vote = voteService.getVoteById(voteId);
-        logger.info("VoteDataFetcher.java: exited getVoteById()");
+        log.info("VoteDataFetcher.java: exited getVoteById()");
         return vote;
     }
 

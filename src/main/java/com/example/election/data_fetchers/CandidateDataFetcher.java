@@ -8,13 +8,13 @@ import com.netflix.graphql.dgs.DgsMutation;
 import com.netflix.graphql.dgs.DgsQuery;
 import com.netflix.graphql.dgs.InputArgument;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 @DgsComponent
+@Slf4j
 public class CandidateDataFetcher {
-    private static final Logger logger = Logger.getLogger(CandidateDataFetcher.class.getName());
     private final CandidateService candidateService;
 
     public CandidateDataFetcher(CandidateService candidateService) {
@@ -23,26 +23,26 @@ public class CandidateDataFetcher {
 
     @DgsQuery
     public List<Candidate> getCandidatesOfElection(@InputArgument("electionId") Integer electionId) {
-        logger.info("CandidateDataFetcher.java: entered getCandidates()");
+        log.info("CandidateDataFetcher.java: entered getCandidates()");
         List<Candidate> candidates = candidateService.getCandidatesByElectionId(electionId);
-        logger.info("CandidateDataFetcher.java: exited getCandidates()");
+        log.info("CandidateDataFetcher.java: exited getCandidates()");
         return candidates;
     }
 
     @DgsQuery
     public Candidate getCandidateById(@InputArgument("candidateId") Integer candidateId) {
-        logger.info("CandidateDataFetcher.java: entered getCandidate()");
+        log.info("CandidateDataFetcher.java: entered getCandidate()");
         Candidate candidate = candidateService.getCandidateById(candidateId);
-        logger.info("CandidateDataFetcher.java: exited getCandidate()");
+        log.info("CandidateDataFetcher.java: exited getCandidate()");
         return candidate;
     }
 
     @DgsMutation
     @Transactional
     public List<Candidate> createCandidates(@InputArgument("input") CandidatesInput candidatesInput) {
-        logger.info("CandidateDataFetcher.java: entered createCandidates()");
+        log.info("CandidateDataFetcher.java: entered createCandidates()");
         List<Candidate> candidates = candidateService.createCandidates(candidatesInput);
-        logger.info("CandidateDataFetcher.java: exited createCandidates()");
+        log.info("CandidateDataFetcher.java: exited createCandidates()");
         return candidates;
     }
 }

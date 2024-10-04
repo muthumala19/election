@@ -18,7 +18,6 @@ public class Mapper {
         return modelMapper.map(source, targetClass);
     }
 
-    // Add a method to map a list of objects
     public <T, R> List<R> mapList(List<T> source, Class<R> targetClass) {
         return source.stream()
                 .map(element -> map(element, targetClass))
