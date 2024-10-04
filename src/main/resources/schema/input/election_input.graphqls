@@ -5,5 +5,6 @@ input ElectionInput{
     endDateTime: DateTime!
     isAnonymous: Boolean!
     registeredNumberOfVotes: Int
+    eligibleVoters: [String!]!
     candidates: [CandidateInput]
 }

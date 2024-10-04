@@ -8,6 +8,7 @@ import com.example.election.generated.types.ElectionInput;
 import com.example.election.mappers.Mapper;
 import com.example.election.repositories.ElectionRepository;
 import jakarta.transaction.Transactional;
+import org.quartz.Scheduler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,9 @@ import java.util.logging.Logger;
 @Service
 public class ElectionService {
     private static final Logger logger = Logger.getLogger(ElectionService.class.getName());
+
     private final CandidateService candidateService;
+    private final EligibleVoterService eligibleVoterService;
 
     @Autowired
     private Mapper electionMapper;
@@ -26,8 +29,9 @@ public class ElectionService {
     @Autowired
     private ElectionRepository electionRepository;
 
-    public ElectionService(CandidateService candidateService) {
+    public ElectionService(CandidateService candidateService, EligibleVoterService eligibleVoterService) {
         this.candidateService = candidateService;
+        this.eligibleVoterService = eligibleVoterService;
     }
 
     public List<Election> getElections() {
@@ -58,6 +62,9 @@ public class ElectionService {
         electionBean.setAnonymous(electionBean.isAnonymous());
         electionBean.setCreatedBy(100);
         ElectionBean election = electionRepository.save(electionBean);
+        if (Objects.nonNull(electionInput.getEligibleVoters())) {
+            eligibleVoterService.addEligibleVoters(election.getElectionId(), electionInput.getEligibleVoters());
+        }
         if (Objects.nonNull(electionInput.getCandidates())) {
             CandidatesInput candidatesInput = new CandidatesInput();
             candidatesInput.setElectionId(election.getElectionId());
