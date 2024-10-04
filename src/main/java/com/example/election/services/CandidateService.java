@@ -17,7 +17,9 @@ import java.util.logging.Logger;
 @Service
 public class CandidateService {
     private static final Logger logger = Logger.getLogger(CandidateService.class.getName());
-    Mapper candidateMapper = new Mapper();
+
+    @Autowired
+    private Mapper candidateMapper;
 
     @Autowired
     private CandidateRepository candidateRepository;

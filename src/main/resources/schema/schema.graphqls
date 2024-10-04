@@ -10,4 +10,7 @@ type Query {
 
     ## Vote Queries
     getVoteById(voteId: Int!): Vote
+
+    ## General Queries
+    invalidEmails(emails: [String]!): [String]
 }
