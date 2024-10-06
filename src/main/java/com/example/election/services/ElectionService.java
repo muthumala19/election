@@ -7,8 +7,14 @@ import com.example.election.generated.types.Election;
 import com.example.election.generated.types.ElectionInput;
 import com.example.election.mappers.Mapper;
 import com.example.election.repositories.ElectionRepository;
+import com.example.election.utils.quartz.schedulers.ElectionScheduler;
+import com.example.election.utils.quartz.triggers.ElectionJobTrigger;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
+import org.quartz.JobDetail;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.Trigger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +29,15 @@ public class ElectionService {
 
     @Autowired
     private Mapper electionMapper;
+
+    @Autowired
+    private ElectionScheduler electionScheduler;
+
+    @Autowired
+    private Scheduler scheduler;
+
+    @Autowired
+    private ElectionJobTrigger electionJobTrigger;
 
     @Autowired
     private ElectionRepository electionRepository;
@@ -70,6 +85,30 @@ public class ElectionService {
             candidateService.createCandidates(candidatesInput);
         }
         log.info("ElectionService.java: exited createElection()");
+        scheduleElection(election);
+        return electionMapper.map(election, Election.class);
+    }
+
+    @Transactional
+    public void scheduleElection(ElectionBean electionBean) {
+        log.info("ElectionService.java: entered scheduleElection()");
+        JobDetail jobDetail = electionScheduler.buildJobDetail(electionBean.getElectionId());
+        Trigger trigger = electionJobTrigger.buildJobTrigger(jobDetail, electionBean.getStartDateTime());
+        try {
+            scheduler.scheduleJob(jobDetail, trigger);
+        } catch (Exception e) {
+            log.error("Error scheduling election with id " + electionBean.getElectionId(), e);
+        }
+        log.info("ElectionService.java: exited scheduleElection()");
+    }
+
+    @Transactional
+    public Election startElection(Integer electionId) {
+        log.info("ElectionService.java: entered startElection()");
+        ElectionBean electionBean = electionRepository.findById(Long.valueOf(electionId)).orElse(null);
+        electionBean.setStatus(ElectionStatus.ONGOING);
+        ElectionBean election = electionRepository.save(electionBean);
+        log.info("ElectionService.java: exited startElection()");
         return electionMapper.map(election, Election.class);
     }
 }
