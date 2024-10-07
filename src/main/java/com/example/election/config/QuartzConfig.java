@@ -4,12 +4,11 @@ import com.example.election.utils.quartz.job_factory.AutowiringSpringBeanJobFact
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.quartz.QuartzDataSource;
-import org.springframework.boot.autoconfigure.quartz.SchedulerFactoryBeanCustomizer;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
+import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
 import java.util.Properties;
@@ -17,19 +16,25 @@ import java.util.Properties;
 @Configuration
 public class QuartzConfig {
 
+    private final DataSource dataSource;
+    private final PlatformTransactionManager transactionManager;
+
     @Autowired
     private AutowiringSpringBeanJobFactory jobFactory;
 
-    @Bean
-    public AutowiringSpringBeanJobFactory jobFactory() {
-        return new AutowiringSpringBeanJobFactory();
+    @Autowired
+    public QuartzConfig(@Qualifier("schedulerDataSource") DataSource dataSource, @Qualifier("schedulerTransactionManager") PlatformTransactionManager transactionManager) {
+        this.dataSource = dataSource;
+        this.transactionManager = transactionManager;
     }
 
     @Bean
-    public SchedulerFactoryBean schedulerFactoryBean(DataSource quartzDataSource) {
+    public SchedulerFactoryBean schedulerFactoryBean() {
         SchedulerFactoryBean factory = new SchedulerFactoryBean();
-        factory.setDataSource(quartzDataSource);
+        factory.setDataSource(dataSource);
+        factory.setTransactionManager(transactionManager);
         factory.setJobFactory(jobFactory);
+        factory.setQuartzProperties(createQuartzProperties());
         return factory;
     }
 
@@ -41,25 +46,9 @@ public class QuartzConfig {
     }
 
     @Bean
-    @QuartzDataSource
-    public DataSource quartzDataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl("jdbc:postgresql://localhost:5432/quartz_job_db");
-        dataSource.setUsername("postgres");
-        dataSource.setPassword("pgql");
-        return dataSource;
-    }
-
-    @Bean
-    public SchedulerFactoryBeanCustomizer schedulerFactoryBeanCustomizer() {
-        return bean -> bean.setQuartzProperties(createQuartzProperties());
-    }
-
-    @Bean
     public Properties createQuartzProperties() {
         Properties props = new Properties();
-        props.put("spring.quartz.properties.org.quartz.jobStore.driverDelegateClass", "org.quartz.impl.jdbcjobstore.PostgreSQLDelegate");
+        props.put("org.quartz.jobStore.driverDelegateClass", "org.quartz.impl.jdbcjobstore.PostgreSQLDelegate");
         return props;
     }
 }
