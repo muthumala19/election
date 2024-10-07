@@ -10,6 +10,7 @@ type Election {
     updatedDateTime: DateTime
     createdBy: Int!
     registeredNumberOfVotes: Int
+    eligibleVoters: [String]
     candidates: [Candidate]
 }
 

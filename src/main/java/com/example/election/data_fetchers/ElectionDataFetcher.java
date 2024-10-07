@@ -8,13 +8,13 @@ import com.netflix.graphql.dgs.DgsMutation;
 import com.netflix.graphql.dgs.DgsQuery;
 import com.netflix.graphql.dgs.InputArgument;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 @DgsComponent
+@Slf4j
 public class ElectionDataFetcher {
-    private static final Logger logger = Logger.getLogger(ElectionDataFetcher.class.getName());
     private final ElectionService electionService;
 
     public ElectionDataFetcher(ElectionService electionService) {
@@ -23,26 +23,26 @@ public class ElectionDataFetcher {
 
     @DgsQuery
     public List<Election> getElections() {
-        logger.info("ElectionDataFetcher.java: entered getElections()");
+        log.info("ElectionDataFetcher.java: entered getElections()");
         List<Election> elections = electionService.getElections();
-        logger.info("ElectionDataFetcher.java: exited getElections()");
+        log.info("ElectionDataFetcher.java: exited getElections()");
         return elections;
     }
 
     @DgsQuery
     public Election getElectionById(@InputArgument("electionId") Integer electionId) {
-        logger.info("ElectionDataFetcher.java: entered getElection()");
+        log.info("ElectionDataFetcher.java: entered getElection()");
         Election election = electionService.getElectionById(electionId);
-        logger.info("ElectionDataFetcher.java: exited getElection()");
+        log.info("ElectionDataFetcher.java: exited getElection()");
         return election;
     }
 
     @DgsMutation
     @Transactional
     public Election createElection(@InputArgument("input") ElectionInput electionInput) {
-        logger.info("ElectionDataFetcher.java: entered createElection()");
+        log.info("ElectionDataFetcher.java: entered createElection()");
         Election election = electionService.createElection(electionInput);
-        logger.info("ElectionDataFetcher.java: exited createElection()");
+        log.info("ElectionDataFetcher.java: exited createElection()");
         return election;
     }
 }
