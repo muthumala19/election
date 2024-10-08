@@ -13,7 +13,6 @@ import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
-import org.quartz.SchedulerException;
 import org.quartz.Trigger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -110,5 +109,13 @@ public class ElectionService {
         ElectionBean election = electionRepository.save(electionBean);
         log.info("ElectionService.java: exited startElection()");
         return electionMapper.map(election, Election.class);
+    }
+
+    public List<Election> getElectionsByCreatedUserId(Integer userId) {
+        log.info("ElectionService.java: entered getElectionsByCreatedUserId()");
+        List<ElectionBean> electionBeans = electionRepository.findByCreatedBy(userId);
+        List<Election> elections = electionMapper.mapList(electionBeans, Election.class);
+        log.info("ElectionService.java: exited getElectionsByCreatedUserId()");
+        return elections;
     }
 }

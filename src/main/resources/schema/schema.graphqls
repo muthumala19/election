@@ -3,6 +3,7 @@ type Query {
     ## Election Queries
     getElections: [Election]
     getElectionById(electionId: Int!): Election
+    getElectionsByCreatedUserId(userId: Int!): [Election]
 
     ## Candidate Queries
     getCandidatesOfElection(electionId:Int!): [Candidate]

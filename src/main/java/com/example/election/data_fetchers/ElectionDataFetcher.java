@@ -45,4 +45,12 @@ public class ElectionDataFetcher {
         log.info("ElectionDataFetcher.java: exited createElection()");
         return election;
     }
+
+    @DgsQuery
+    public List<Election> getElectionsByCreatedUserId(@InputArgument("userId") Integer userId) {
+        log.info("ElectionDataFetcher.java: entered getElectionsByCreatedUserId()");
+        List<Election> elections = electionService.getElectionsByCreatedUserId(userId);
+        log.info("ElectionDataFetcher.java: exited getElectionsByCreatedUserId()");
+        return elections;
+    }
 }
