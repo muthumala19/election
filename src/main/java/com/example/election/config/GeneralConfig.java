@@ -1,6 +1,7 @@
 package com.example.election.config;
 
 import com.example.election.mappers.Mapper;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -18,7 +19,7 @@ public class GeneralConfig {
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             @Override
-            public void addCorsMappings(CorsRegistry registry) {
+            public void addCorsMappings(@NotNull CorsRegistry registry) {
                 registry.addMapping("/**")
                         .allowedOrigins("*") // Allow all origins for now
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
@@ -27,5 +28,4 @@ public class GeneralConfig {
             }
         };
     }
-
 }

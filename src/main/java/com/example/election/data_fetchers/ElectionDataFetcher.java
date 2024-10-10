@@ -3,23 +3,25 @@ package com.example.election.data_fetchers;
 import com.example.election.generated.types.Election;
 import com.example.election.generated.types.ElectionInput;
 import com.example.election.services.ElectionService;
+import com.example.election.validators.ElectionValidator;
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsMutation;
 import com.netflix.graphql.dgs.DgsQuery;
 import com.netflix.graphql.dgs.InputArgument;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 @DgsComponent
 @Slf4j
 public class ElectionDataFetcher {
-    private final ElectionService electionService;
+    @Autowired
+    private ElectionService electionService;
 
-    public ElectionDataFetcher(ElectionService electionService) {
-        this.electionService = electionService;
-    }
+    @Autowired
+    private ElectionValidator electionValidator;
 
     @DgsQuery
     public List<Election> getElections() {
@@ -41,7 +43,7 @@ public class ElectionDataFetcher {
     @Transactional
     public Election createElection(@InputArgument("input") ElectionInput electionInput) {
         log.info("ElectionDataFetcher.java: entered createElection()");
-        Election election = electionService.createElection(electionInput);
+        Election election = electionValidator.validateElection(electionInput);
         log.info("ElectionDataFetcher.java: exited createElection()");
         return election;
     }

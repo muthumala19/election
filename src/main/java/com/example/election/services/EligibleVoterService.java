@@ -15,7 +15,7 @@ public class EligibleVoterService {
     @Autowired
     private EligibleVoterRepository eligibleVoterRepository;
 
-    public void addEligibleVoters(Integer electionId, List<String> emails) {
+    public List<EligibleVoterBean> addEligibleVoters(Integer electionId, List<String> emails) {
         log.info("Adding {} eligible voters for election {}", emails.size(), electionId);
         List<EligibleVoterBean> voters = emails.stream()
                 .map(email -> {
@@ -25,8 +25,9 @@ public class EligibleVoterService {
                     return voter;
                 })
                 .collect(Collectors.toList());
-        eligibleVoterRepository.saveAll(voters);
+        List<EligibleVoterBean> eligibleVoters=eligibleVoterRepository.saveAll(voters);
         log.info("Added {} eligible voters for election {}", emails.size(), electionId);
+        return eligibleVoters;
     }
 
     public List<String> getEligibleVotersByElectionId(int electionId) {
