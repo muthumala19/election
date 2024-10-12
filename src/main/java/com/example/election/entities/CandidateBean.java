@@ -17,6 +17,7 @@ import java.time.ZonedDateTime;
 @Table(schema = "public", name = "candidate")
 public class CandidateBean {
 
+    @Transient
     private String timeZone;
 
     @Id

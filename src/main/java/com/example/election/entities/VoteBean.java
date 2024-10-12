@@ -16,6 +16,7 @@ import java.time.ZonedDateTime;
 @AllArgsConstructor
 @Table(schema = "public", name = "vote")
 public class VoteBean {
+    @Transient
     private String timeZone;
 
     @Column(name = "timestamp")
