@@ -9,32 +9,42 @@ import graphql.schema.CoercingParseValueException;
 import graphql.schema.CoercingSerializeException;
 import org.jetbrains.annotations.NotNull;
 
-import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
-@DgsScalar(name="DateTime")
-public class DateTimeScalar implements Coercing<OffsetDateTime, String> {
+@DgsScalar(name = "DateTime")
+public class DateTimeScalar implements Coercing<ZonedDateTime, String> {
+
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ISO_ZONED_DATE_TIME;
+
     @Override
     public String serialize(@NotNull Object dataFetcherResult) throws CoercingSerializeException {
-        if (dataFetcherResult instanceof OffsetDateTime) {
-            return ((OffsetDateTime) dataFetcherResult).format(DateTimeFormatter.ISO_DATE_TIME);
+        if (dataFetcherResult instanceof ZonedDateTime) {
+            return ((ZonedDateTime) dataFetcherResult).format(FORMATTER);
         } else {
-            throw new CoercingSerializeException("Not a valid DateTime");
+            throw new CoercingSerializeException("Not a valid ZonedDateTime");
         }
     }
 
     @Override
-    public OffsetDateTime parseValue(Object input) throws CoercingParseValueException {
-        return OffsetDateTime.parse(input.toString(), DateTimeFormatter.ISO_DATE_TIME);
+    public ZonedDateTime parseValue(Object input) throws CoercingParseValueException {
+        try {
+            return ZonedDateTime.parse(input.toString(), FORMATTER);
+        } catch (Exception e) {
+            throw new CoercingParseValueException("Invalid input for ZonedDateTime");
+        }
     }
 
     @Override
-    public OffsetDateTime parseLiteral(@NotNull Object input) throws CoercingParseLiteralException {
+    public ZonedDateTime parseLiteral(@NotNull Object input) throws CoercingParseLiteralException {
         if (input instanceof StringValue) {
-            return OffsetDateTime.parse(((StringValue) input).getValue(), DateTimeFormatter.ISO_DATE_TIME);
+            try {
+                return ZonedDateTime.parse(((StringValue) input).getValue(), FORMATTER);
+            } catch (Exception e) {
+                throw new CoercingParseLiteralException("Value is not a valid ISO ZonedDateTime");
+            }
         }
-
-        throw new CoercingParseLiteralException("Value is not a valid ISO date time");
+        throw new CoercingParseLiteralException("Expected a StringValue for ZonedDateTime");
     }
 
     @Override

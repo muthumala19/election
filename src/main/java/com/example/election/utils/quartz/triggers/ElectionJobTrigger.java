@@ -7,18 +7,20 @@ import org.quartz.TriggerBuilder;
 import org.springframework.stereotype.Component;
 
 import java.sql.Date;
-import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 
 @Component
 public class ElectionJobTrigger {
 
-    public Trigger buildJobTrigger(JobDetail jobDetail, OffsetDateTime startAt) {
+    public Trigger buildJobTrigger(JobDetail jobDetail, ZonedDateTime startAt) {
         return TriggerBuilder.newTrigger()
                 .forJob(jobDetail)
                 .withIdentity(jobDetail.getKey().getName(), "election-triggers")
                 .withDescription("Start Election Job Trigger")
-                .startAt(Date.from(startAt.toLocalDateTime().toInstant(OffsetDateTime.now().getOffset())))
+                .startAt(Date.from(startAt.toInstant()))
                 .withSchedule(SimpleScheduleBuilder.simpleSchedule().withMisfireHandlingInstructionFireNow())
                 .build();
     }
+
+
 }

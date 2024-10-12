@@ -6,7 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 @Entity
 @Getter
@@ -15,6 +16,8 @@ import java.time.OffsetDateTime;
 @AllArgsConstructor
 @Table(schema = "public", name = "candidate")
 public class CandidateBean {
+
+    private String timeZone;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,24 +37,27 @@ public class CandidateBean {
     private int electionId;
 
     @Column(name = "created_date", nullable = false)
-    private OffsetDateTime createdDate = OffsetDateTime.now();
+    private ZonedDateTime createdDate = ZonedDateTime.now();
 
     @Column(name = "updated_date", nullable = false)
-    private OffsetDateTime updatedDate = OffsetDateTime.now();
+    private ZonedDateTime updatedDate = ZonedDateTime.now();
 
     @Column(name="image_url")
     private String imageUrl;
 
     @PreUpdate
     protected void onUpdate() {
-        updatedDate = OffsetDateTime.now();
+        updatedDate = ZonedDateTime.now(getZoneId());
     }
 
     @PrePersist
     protected void onCreate() {
-        OffsetDateTime now = OffsetDateTime.now();
+        ZonedDateTime now = ZonedDateTime.now(getZoneId());
         this.createdDate = now;
         this.updatedDate = now;
     }
 
+    private ZoneId getZoneId() {
+        return timeZone != null && !timeZone.isEmpty() ? ZoneId.of(timeZone) : ZoneId.systemDefault();
+    }
 }

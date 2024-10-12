@@ -126,6 +126,9 @@
 						<param>src/main/resources/schema/</param>
 					</schemaPaths>
 					<packageName>com.example.election.generated</packageName>
+					<typeMapping>
+						<DateTime>java.time.ZonedDateTime</DateTime>
+					</typeMapping>
 				</configuration>
 			</plugin>
 			<plugin>

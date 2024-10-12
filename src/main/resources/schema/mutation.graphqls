@@ -1,15 +1,19 @@
 type Mutation{
     ## election mutation
     createElection(input:ElectionInput!): Election
-
+#    updateElection(input:ElectionInput!): Election
+#    deleteElection(id:ID!): Election
 
     ## candidate mutation
     addCandidates(input:CandidatesInput!): [Candidate]
+#    updateCandidate(input:CandidatesInput!): Candidate
+#    deleteCandidate(id:ID!): Candidate
 
     ## vote mutation
 
     ##eligible voter mutation
     addEligibleVoters(input:EligibleVoterInput!): [String]
+#    deleteEligibleVoter(id:ID!): String
 
 
 }

@@ -11,12 +11,14 @@ import com.example.election.utils.quartz.schedulers.ElectionScheduler;
 import com.example.election.utils.quartz.triggers.ElectionJobTrigger;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.Trigger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Objects;
 
@@ -62,30 +64,39 @@ public class ElectionService {
         return election;
     }
 
-    @Transactional
-    public Election createElection(ElectionInput electionInput) {
-        log.info("ElectionService.java: entered createElection()");
+    @NotNull
+    private static ElectionBean generateElectionBean(ElectionInput electionInput) {
+        ZoneId zoneId = ZoneId.of(electionInput.getTimeZone());
         ElectionBean electionBean = new ElectionBean();
         electionBean.setElectionName(electionInput.getElectionName());
+        electionBean.setTimeZone(electionInput.getTimeZone());
         electionBean.setDescription(electionInput.getDescription());
-        electionBean.setStartDateTime(electionInput.getStartDateTime());
-        electionBean.setEndDateTime(electionInput.getEndDateTime());
+        electionBean.setStartDateTime(electionInput.getStartDateTime().withZoneSameInstant(zoneId));
+        electionBean.setEndDateTime(electionInput.getEndDateTime().withZoneSameInstant(zoneId));
         electionBean.setStatus(ElectionStatus.UPCOMING);
         electionBean.setAnonymous(electionBean.isAnonymous());
         electionBean.setCreatedBy(100);
-        ElectionBean election = electionRepository.save(electionBean);
+        return electionBean;
+    }
+
+    @Transactional
+    public Election createElection(ElectionInput electionInput) {
+        log.info("ElectionService.java: entered createElection()");
+        ElectionBean electionBean = generateElectionBean(electionInput);
+        ElectionBean newElectionBean = electionRepository.save(electionBean);
         if (Objects.nonNull(electionInput.getEligibleVoters())) {
-            eligibleVoterService.addEligibleVoters(election.getElectionId(), electionInput.getEligibleVoters());
+            eligibleVoterService.addEligibleVoters(newElectionBean.getElectionId(), electionInput.getEligibleVoters());
         }
+        Election election = electionMapper.map(newElectionBean, Election.class);
         if (Objects.nonNull(electionInput.getCandidates())) {
             CandidatesInput candidatesInput = new CandidatesInput();
-            candidatesInput.setElectionId(election.getElectionId());
+            candidatesInput.setElectionId(newElectionBean.getElectionId());
             candidatesInput.setCandidates(electionInput.getCandidates());
-            candidateService.createCandidates(candidatesInput);
+            candidateService.createCandidates(candidatesInput, election);
         }
         log.info("ElectionService.java: exited createElection()");
-        scheduleElection(election);
-        return electionMapper.map(election, Election.class);
+        scheduleElection(newElectionBean);
+        return election;
     }
 
     @Transactional
@@ -102,13 +113,13 @@ public class ElectionService {
     }
 
     @Transactional
-    public Election startElection(Integer electionId) {
+    public void startElection(Integer electionId) {
         log.info("ElectionService.java: entered startElection()");
         ElectionBean electionBean = electionRepository.findById(Long.valueOf(electionId)).orElse(null);
+        assert electionBean != null;
         electionBean.setStatus(ElectionStatus.ONGOING);
         ElectionBean election = electionRepository.save(electionBean);
         log.info("ElectionService.java: exited startElection()");
-        return electionMapper.map(election, Election.class);
     }
 
     public List<Election> getElectionsByCreatedUserId(Integer userId) {

@@ -7,7 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 @Component
 @Slf4j
@@ -18,22 +19,34 @@ public class ElectionValidator {
 
     public Election validateElection(ElectionInput electionInput) {
         log.info("ElectionValidator.java: entered validateElection()");
-        if (OffsetDateTime.now().isAfter(electionInput.getStartDateTime())) {
+
+        ZoneId zoneId = ZoneId.of(electionInput.getTimeZone());
+        ZonedDateTime nowInZone = ZonedDateTime.now(zoneId);
+        log.info("ElectionValidator.java: Current time: " + nowInZone);
+        ZonedDateTime startDateTime = electionInput.getStartDateTime();
+        ZonedDateTime endDateTime = electionInput.getEndDateTime();
+
+        if (startDateTime.isBefore(nowInZone)) {
             log.info("ElectionValidator.java: validateElection() - Start date time cannot be in the past");
             return null;
-        } else if (OffsetDateTime.now().isAfter(electionInput.getEndDateTime())) {
+        }
+        if (endDateTime.isBefore(nowInZone)) {
             log.info("ElectionValidator.java: validateElection() - End date time cannot be in the past");
             return null;
-        } else if (electionInput.getStartDateTime().isAfter(electionInput.getEndDateTime())) {
+        }
+        if (startDateTime.isAfter(endDateTime)) {
             log.info("ElectionValidator.java: validateElection() - Start date time cannot be after end date time");
             return null;
-        } else if (electionInput.getCandidates().size() < 2) {
+        }
+        if (electionInput.getCandidates().size() < 2) {
             log.info("ElectionValidator.java: validateElection() - Election must have at least 2 candidates");
             return null;
-        } else if (electionInput.getEligibleVoters().isEmpty()) {
+        }
+        if (electionInput.getEligibleVoters().isEmpty()) {
             log.info("ElectionValidator.java: validateElection() - Election must have at least 1 voter");
             return null;
         }
         return electionService.createElection(electionInput);
     }
+
 }
