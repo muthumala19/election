@@ -121,7 +121,6 @@ public class ElectionService {
         ElectionBean electionBean = electionRepository.findById(Long.valueOf(electionId)).orElse(null);
         assert electionBean != null;
         electionBean.setStatus(ElectionStatus.ONGOING);
-        ElectionBean election = electionRepository.save(electionBean);
         log.info("ElectionService.java: exited startElection()");
     }
 
@@ -131,7 +130,6 @@ public class ElectionService {
         ElectionBean electionBean = electionRepository.findById(Long.valueOf(electionId)).orElse(null);
         assert electionBean != null;
         electionBean.setStatus(ElectionStatus.COMPLETED);
-        ElectionBean election = electionRepository.save(electionBean);
         log.info("ElectionService.java: exited endElection()");
     }
 

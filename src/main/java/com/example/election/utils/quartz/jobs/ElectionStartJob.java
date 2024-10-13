@@ -17,7 +17,7 @@ public class ElectionStartJob extends QuartzJobBean {
     private ElectionService electionService;
 
     @Override
-    protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {
+    protected void executeInternal(JobExecutionContext jobExecutionContext) {
         JobDataMap jobDataMap = jobExecutionContext.getMergedJobDataMap();
         Integer electionId = jobDataMap.getInt("electionId");
         electionService.startElection(electionId);
