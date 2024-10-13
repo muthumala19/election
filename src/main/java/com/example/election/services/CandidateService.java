@@ -4,6 +4,7 @@ import com.example.election.entities.CandidateBean;
 import com.example.election.generated.types.Candidate;
 import com.example.election.generated.types.CandidateInput;
 import com.example.election.generated.types.CandidatesInput;
+import com.example.election.generated.types.Election;
 import com.example.election.mappers.Mapper;
 import com.example.election.repositories.CandidateRepository;
 import jakarta.transaction.Transactional;
@@ -40,25 +41,25 @@ public class CandidateService {
     }
 
     @Transactional
-    public List<Candidate> createCandidates(CandidatesInput candidatesInput) {
+    public List<Candidate> createCandidates(CandidatesInput candidatesInput, Election election) {
         log.info("CandidateService.java: entered createCandidates()");
-        Integer electionId = candidatesInput.getElectionId();
         List<CandidateBean> candidateBeans = new ArrayList<>();
         for (CandidateInput candidateInput : candidatesInput.getCandidates()) {
-            candidateBeans.add(mapCandidateInputToCandidateBean(candidateInput, electionId));
+            candidateBeans.add(mapCandidateInputToCandidateBean(candidateInput, election));
         }
         List<CandidateBean> candidates = candidateRepository.saveAll(candidateBeans);
         log.info("CandidateService.java: exited createCandidates()");
         return candidateMapper.mapList(candidates, Candidate.class);
     }
 
-    private CandidateBean mapCandidateInputToCandidateBean(CandidateInput candidateInput, Integer electionId) {
+    private CandidateBean mapCandidateInputToCandidateBean(CandidateInput candidateInput, Election election) {
         log.info("CandidateService.java: entered mapCandidateInputToCandidateBean()");
         CandidateBean candidateBean = new CandidateBean();
+        candidateBean.setTimeZone(election.getTimeZone());
         candidateBean.setCandidateName(candidateInput.getName());
         candidateBean.setBiography(candidateInput.getBiography());
         candidateBean.setCreatedBy(100); //hardcoded for now
-        candidateBean.setElectionId(electionId);
+        candidateBean.setElectionId(election.getElectionId());
         candidateBean.setImageUrl(candidateInput.getImageUrl());
         log.info("CandidateService.java: exited mapCandidateInputToCandidateBean()");
         return candidateBean;

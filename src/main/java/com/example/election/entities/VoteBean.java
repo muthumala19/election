@@ -6,7 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 @Entity
 @Getter
@@ -15,6 +16,11 @@ import java.time.OffsetDateTime;
 @AllArgsConstructor
 @Table(schema = "public", name = "vote")
 public class VoteBean {
+    @Transient
+    private String timeZone;
+
+    @Column(name = "timestamp")
+    private ZonedDateTime timestamp;
 
     @Id
     @Column(name = "vote_id")
@@ -36,9 +42,6 @@ public class VoteBean {
     @Column(name = "voter_id", nullable = false)
     private Integer voterId;
 
-    @Column(name = "timestamp")
-    private OffsetDateTime timestamp;
-
     @Column(name = "ip_address")
     private String ipAddress;
 
@@ -47,12 +50,17 @@ public class VoteBean {
 
     @PrePersist
     protected void onCreate() {
-        OffsetDateTime now = OffsetDateTime.now();
-        this.timestamp = now;
+        ZoneId zoneId = getZoneId();
+        this.timestamp = ZonedDateTime.now(zoneId);
     }
 
     @PreUpdate
     protected void onUpdate() {
-        this.timestamp = OffsetDateTime.now();
+        ZoneId zoneId = getZoneId();
+        this.timestamp = ZonedDateTime.now(zoneId);
+    }
+
+    private ZoneId getZoneId() {
+        return timeZone != null && !timeZone.isEmpty() ? ZoneId.of(timeZone) : ZoneId.systemDefault();
     }
 }

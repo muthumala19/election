@@ -3,23 +3,25 @@ package com.example.election.data_fetchers;
 import com.example.election.generated.types.Candidate;
 import com.example.election.generated.types.CandidatesInput;
 import com.example.election.services.CandidateService;
+import com.example.election.validators.CandidateValidator;
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsMutation;
 import com.netflix.graphql.dgs.DgsQuery;
 import com.netflix.graphql.dgs.InputArgument;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 @DgsComponent
 @Slf4j
 public class CandidateDataFetcher {
-    private final CandidateService candidateService;
 
-    public CandidateDataFetcher(CandidateService candidateService) {
-        this.candidateService = candidateService;
-    }
+    @Autowired
+    private CandidateService candidateService;
+    @Autowired
+    private CandidateValidator candidateValidator;
 
     @DgsQuery
     public List<Candidate> getCandidatesOfElection(@InputArgument("electionId") Integer electionId) {
@@ -39,9 +41,9 @@ public class CandidateDataFetcher {
 
     @DgsMutation
     @Transactional
-    public List<Candidate> createCandidates(@InputArgument("input") CandidatesInput candidatesInput) {
+    public List<Candidate> addCandidates(@InputArgument("input") CandidatesInput candidatesInput) {
         log.info("CandidateDataFetcher.java: entered createCandidates()");
-        List<Candidate> candidates = candidateService.createCandidates(candidatesInput);
+        List<Candidate> candidates = candidateValidator.validateCandidates(candidatesInput);
         log.info("CandidateDataFetcher.java: exited createCandidates()");
         return candidates;
     }

@@ -1,0 +1,4 @@
+input EligibleVoterInput {
+    electionId: Int!
+    eligibleVoters: [String!]!
+}

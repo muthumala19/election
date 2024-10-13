@@ -7,7 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 @Entity
 @Getter
@@ -28,11 +29,14 @@ public class ElectionBean {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "time_zone", nullable = false)
+    private String timeZone;
+
     @Column(name = "start_date", nullable = false)
-    private OffsetDateTime startDateTime;
+    private ZonedDateTime startDateTime;
 
     @Column(name = "end_date", nullable = false)
-    private OffsetDateTime endDateTime;
+    private ZonedDateTime endDateTime;
 
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -48,20 +52,26 @@ public class ElectionBean {
     private boolean isAnonymous;
 
     @Column(name = "created_date", nullable = false)
-    private OffsetDateTime createdDate;
+    private ZonedDateTime createdDate;
 
     @Column(name = "updated_date", nullable = false)
-    private OffsetDateTime updatedDate;
+    private ZonedDateTime updatedDate;
 
     @PrePersist
     protected void onCreate() {
-        OffsetDateTime now = OffsetDateTime.now();
+        ZoneId zoneId = getZoneId();
+        ZonedDateTime now = ZonedDateTime.now(zoneId);
         this.createdDate = now;
         this.updatedDate = now;
     }
 
     @PreUpdate
     protected void onUpdate() {
-        this.updatedDate = OffsetDateTime.now();
+        ZoneId zoneId = getZoneId();
+        this.updatedDate = ZonedDateTime.now(zoneId);
+    }
+
+    private ZoneId getZoneId() {
+        return timeZone != null && !timeZone.isEmpty() ? ZoneId.of(timeZone) : ZoneId.systemDefault();
     }
 }

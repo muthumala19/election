@@ -1,5 +1,6 @@
 input ElectionInput{
     electionName: String!
+    timeZone:String!
     description: String
     startDateTime: DateTime!
     endDateTime: DateTime!
