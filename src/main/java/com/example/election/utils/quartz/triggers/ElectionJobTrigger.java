@@ -12,10 +12,10 @@ import java.time.ZonedDateTime;
 @Component
 public class ElectionJobTrigger {
 
-    public Trigger buildJobTrigger(JobDetail jobDetail, ZonedDateTime startAt) {
+    public Trigger buildElectionStartJobTrigger(JobDetail jobDetail, ZonedDateTime startAt) {
         return TriggerBuilder.newTrigger()
                 .forJob(jobDetail)
-                .withIdentity(jobDetail.getKey().getName(), "election-triggers")
+                .withIdentity(jobDetail.getKey().getName(), "election-start-triggers")
                 .withDescription("Start Election Job Trigger")
                 .startAt(Date.from(startAt.toInstant()))
                 .withSchedule(SimpleScheduleBuilder.simpleSchedule().withMisfireHandlingInstructionFireNow())
@@ -23,4 +23,13 @@ public class ElectionJobTrigger {
     }
 
 
+    public Trigger buildElectionEndJobTrigger(JobDetail electionEndJobDetails, ZonedDateTime endDateTime) {
+        return TriggerBuilder.newTrigger()
+                .forJob(electionEndJobDetails)
+                .withIdentity(electionEndJobDetails.getKey().getName(), "election-end-triggers")
+                .withDescription("End Election Job Trigger")
+                .startAt(Date.from(endDateTime.toInstant()))
+                .withSchedule(SimpleScheduleBuilder.simpleSchedule().withMisfireHandlingInstructionFireNow())
+                .build();
+    }
 }

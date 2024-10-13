@@ -102,10 +102,13 @@ public class ElectionService {
     @Transactional
     public void scheduleElection(ElectionBean electionBean) {
         log.info("ElectionService.java: entered scheduleElection()");
-        JobDetail jobDetail = electionScheduler.buildJobDetail(electionBean.getElectionId());
-        Trigger trigger = electionJobTrigger.buildJobTrigger(jobDetail, electionBean.getStartDateTime());
+        JobDetail electionStartJobDetails = electionScheduler.buildElectionStartJobDetail(electionBean.getElectionId());
+        JobDetail electionEndJobDetails = electionScheduler.buildElectionEndJobDetail(electionBean.getElectionId());
+        Trigger electionStartTrigger = electionJobTrigger.buildElectionStartJobTrigger(electionStartJobDetails, electionBean.getStartDateTime());
+        Trigger electionEndTrigger = electionJobTrigger.buildElectionEndJobTrigger(electionEndJobDetails, electionBean.getEndDateTime());
         try {
-            scheduler.scheduleJob(jobDetail, trigger);
+            scheduler.scheduleJob(electionStartJobDetails, electionStartTrigger);
+            scheduler.scheduleJob(electionEndJobDetails, electionEndTrigger);
         } catch (Exception e) {
             log.error("Error scheduling election with id " + electionBean.getElectionId(), e);
         }
@@ -122,6 +125,16 @@ public class ElectionService {
         log.info("ElectionService.java: exited startElection()");
     }
 
+    @Transactional
+    public void endElection(Integer electionId) {
+        log.info("ElectionService.java: entered endElection()");
+        ElectionBean electionBean = electionRepository.findById(Long.valueOf(electionId)).orElse(null);
+        assert electionBean != null;
+        electionBean.setStatus(ElectionStatus.COMPLETED);
+        ElectionBean election = electionRepository.save(electionBean);
+        log.info("ElectionService.java: exited endElection()");
+    }
+
     public List<Election> getElectionsByCreatedUserId(Integer userId) {
         log.info("ElectionService.java: entered getElectionsByCreatedUserId()");
         List<ElectionBean> electionBeans = electionRepository.findByCreatedBy(userId);
@@ -129,4 +142,6 @@ public class ElectionService {
         log.info("ElectionService.java: exited getElectionsByCreatedUserId()");
         return elections;
     }
+
+
 }

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class ElectionJob extends QuartzJobBean {
+public class ElectionStartJob extends QuartzJobBean {
 
     @Autowired
     private ElectionService electionService;
