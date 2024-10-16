@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 
 @Entity
@@ -16,10 +16,6 @@ import java.time.ZonedDateTime;
 @AllArgsConstructor
 @Table(schema = "public", name = "candidate")
 public class CandidateBean {
-
-    @Transient
-    private String timeZone;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "candidate_id")
@@ -38,27 +34,24 @@ public class CandidateBean {
     private int electionId;
 
     @Column(name = "created_date", nullable = false)
-    private ZonedDateTime createdDate = ZonedDateTime.now();
+    private ZonedDateTime createdDate = ZonedDateTime.now(ZoneOffset.UTC);
 
     @Column(name = "updated_date", nullable = false)
-    private ZonedDateTime updatedDate = ZonedDateTime.now();
+    private ZonedDateTime updatedDate = ZonedDateTime.now(ZoneOffset.UTC);
 
     @Column(name="image_url")
     private String imageUrl;
 
     @PreUpdate
     protected void onUpdate() {
-        updatedDate = ZonedDateTime.now(getZoneId());
+        updatedDate = ZonedDateTime.now(ZoneOffset.UTC);
     }
 
+    // Before creating the record, set both createdDate and updatedDate to current UTC time
     @PrePersist
     protected void onCreate() {
-        ZonedDateTime now = ZonedDateTime.now(getZoneId());
+        ZonedDateTime now = ZonedDateTime.now(ZoneOffset.UTC);
         this.createdDate = now;
         this.updatedDate = now;
-    }
-
-    private ZoneId getZoneId() {
-        return timeZone != null && !timeZone.isEmpty() ? ZoneId.of(timeZone) : ZoneId.systemDefault();
     }
 }

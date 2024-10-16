@@ -7,7 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 
 @Component
@@ -20,11 +20,10 @@ public class ElectionValidator {
     public Election validateElection(ElectionInput electionInput) {
         log.info("ElectionValidator.java: entered validateElection()");
 
-        ZoneId zoneId = ZoneId.of(electionInput.getTimeZone());
-        ZonedDateTime nowInZone = ZonedDateTime.now(zoneId);
+        ZonedDateTime nowInZone = ZonedDateTime.now(ZoneOffset.UTC);
         log.info("ElectionValidator.java: Current time: " + nowInZone);
-        ZonedDateTime startDateTime = electionInput.getStartDateTime();
-        ZonedDateTime endDateTime = electionInput.getEndDateTime();
+        ZonedDateTime startDateTime = electionInput.getStartDateTime().withZoneSameInstant(ZoneOffset.UTC);
+        ZonedDateTime endDateTime = electionInput.getEndDateTime().withZoneSameInstant(ZoneOffset.UTC);
 
         if (startDateTime.isBefore(nowInZone)) {
             log.info("ElectionValidator.java: validateElection() - Start date time cannot be in the past");

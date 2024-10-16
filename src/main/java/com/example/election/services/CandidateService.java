@@ -55,7 +55,6 @@ public class CandidateService {
     private CandidateBean mapCandidateInputToCandidateBean(CandidateInput candidateInput, Election election) {
         log.info("CandidateService.java: entered mapCandidateInputToCandidateBean()");
         CandidateBean candidateBean = new CandidateBean();
-        candidateBean.setTimeZone(election.getTimeZone());
         candidateBean.setCandidateName(candidateInput.getName());
         candidateBean.setBiography(candidateInput.getBiography());
         candidateBean.setCreatedBy(100); //hardcoded for now

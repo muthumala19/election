@@ -18,7 +18,7 @@ import org.quartz.Trigger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Objects;
 
@@ -66,13 +66,11 @@ public class ElectionService {
 
     @NotNull
     private static ElectionBean generateElectionBean(ElectionInput electionInput) {
-        ZoneId zoneId = ZoneId.of(electionInput.getTimeZone());
         ElectionBean electionBean = new ElectionBean();
         electionBean.setElectionName(electionInput.getElectionName());
-        electionBean.setTimeZone(electionInput.getTimeZone());
         electionBean.setDescription(electionInput.getDescription());
-        electionBean.setStartDateTime(electionInput.getStartDateTime().withZoneSameInstant(zoneId));
-        electionBean.setEndDateTime(electionInput.getEndDateTime().withZoneSameInstant(zoneId));
+        electionBean.setStartDateTime(electionInput.getStartDateTime().withZoneSameInstant(ZoneOffset.UTC));
+        electionBean.setEndDateTime(electionInput.getEndDateTime().withZoneSameInstant(ZoneOffset.UTC));
         electionBean.setStatus(ElectionStatus.UPCOMING);
         electionBean.setAnonymous(electionBean.isAnonymous());
         electionBean.setCreatedBy(100);
@@ -140,6 +138,4 @@ public class ElectionService {
         log.info("ElectionService.java: exited getElectionsByCreatedUserId()");
         return elections;
     }
-
-
 }
