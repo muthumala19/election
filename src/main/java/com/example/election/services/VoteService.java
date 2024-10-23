@@ -22,7 +22,7 @@ public class VoteService {
 
     public Vote getVoteById(int voteId) {
         log.info("VoteService.java: entered getVoteById()");
-        VoteBean voteBean = voteRepository.findById(Long.valueOf(voteId)).orElse(null);
+        VoteBean voteBean = voteRepository.findById((long) voteId).orElse(null);
         Vote vote = voteMapper.map(voteBean, Vote.class);
         log.info("VoteService.java: exited getVoteById()");
         return vote;
