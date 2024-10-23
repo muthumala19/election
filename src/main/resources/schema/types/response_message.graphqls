@@ -1,0 +1,8 @@
+type Response{
+    status:Int!
+    message:ResponseMessageType!
+}
+enum ResponseMessageType{
+    SUCCESS,
+    ERROR
+}

@@ -36,14 +36,14 @@ public class VoteBean {
     @Column(name = "third_choice_candidate_id")
     private Integer thirdChoiceCandidateId;
 
-    @Column(name = "voter_id", nullable = false)
-    private Integer voterId;
+    @Column(name = "voter_email", nullable = false)
+    private String voterEmail;
 
     @Column(name = "ip_address")
     private String ipAddress;
 
-    @Column(name = "user_agent")
-    private String userAgent;
+//    @Column(name = "user_agent")
+//    private String userAgent;
 
     @PrePersist
     protected void onCreate() {

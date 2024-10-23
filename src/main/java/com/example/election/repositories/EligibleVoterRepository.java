@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface EligibleVoterRepository extends JpaRepository<EligibleVoterBean, Long> {
     List<EligibleVoterBean> findByElectionId(int electionId);
+
+    EligibleVoterBean findByElectionIdAndVoterEmail(int electionId, String voterEmail);
 }
