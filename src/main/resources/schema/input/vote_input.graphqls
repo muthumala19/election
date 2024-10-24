@@ -1,0 +1,8 @@
+input VoteInput{
+    electionId:Int!
+    voterEmail:String
+    firstChoiceCandidateId: Int
+    secondChoiceCandidateId: Int
+    thirdChoiceCandidateId: Int
+    ipAddress:String ## please input this in headers
+}

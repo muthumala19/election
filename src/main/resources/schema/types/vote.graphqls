@@ -1,11 +1,10 @@
 type Vote {
     voteId: Int!
-    voterId: Int!
+    voterEmail: String
     electionId: Int!
     firstChoiceCandidateId: Int
     secondChoiceCandidateId: Int
     thirdChoiceCandidateId: Int
     timestamp: DateTime
     ipAddress: String
-    userAgent: String
 }

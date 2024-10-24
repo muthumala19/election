@@ -39,4 +39,9 @@ public class EligibleVoterService {
                 .map(EligibleVoterBean::getVoterEmail)
                 .collect(Collectors.toList());
     }
+
+    public EligibleVoterBean getEligibleVoterByEmailAndElectionId(String email, int electionId) {
+        log.info("Fetching eligible voter by email :{} for election {}", email, electionId);
+        return eligibleVoterRepository.findByElectionIdAndVoterEmail(electionId, email);
+    }
 }

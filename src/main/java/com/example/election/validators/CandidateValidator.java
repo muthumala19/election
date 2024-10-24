@@ -20,7 +20,6 @@ public class CandidateValidator {
     @Autowired
     private CandidateService candidateService;
 
-
     public List<Candidate> validateCandidates(CandidatesInput candidatesInput) {
         log.info("CandidateValidator.java: entered validateCandidates()");
         Election election = electionService.getElectionById(candidatesInput.getElectionId());

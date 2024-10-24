@@ -1,6 +1,5 @@
 type Election {
     electionId: Int!
-    timeZone:String!
     electionName: String!
     description: String
     startDateTime: DateTime
