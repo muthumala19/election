@@ -9,7 +9,6 @@ import com.example.election.mappers.Mapper;
 import com.example.election.repositories.ElectionRepository;
 import com.example.election.utils.quartz.schedulers.ElectionScheduler;
 import com.example.election.utils.quartz.triggers.ElectionJobTrigger;
-import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.quartz.JobDetail;
@@ -17,6 +16,7 @@ import org.quartz.Scheduler;
 import org.quartz.Trigger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZoneOffset;
 import java.util.List;
@@ -113,21 +113,23 @@ public class ElectionService {
         log.info("ElectionService.java: exited scheduleElection()");
     }
 
-    @Transactional
+    @Transactional(transactionManager = "transactionManager")
     public void startElection(Integer electionId) {
         log.info("ElectionService.java: entered startElection()");
         ElectionBean electionBean = electionRepository.findById(Long.valueOf(electionId)).orElse(null);
         assert electionBean != null;
         electionBean.setStatus(ElectionStatus.ONGOING);
+        electionRepository.saveAndFlush(electionBean);
         log.info("ElectionService.java: exited startElection()");
     }
 
-    @Transactional
+    @Transactional(transactionManager = "transactionManager")
     public void endElection(Integer electionId) {
         log.info("ElectionService.java: entered endElection()");
         ElectionBean electionBean = electionRepository.findById(Long.valueOf(electionId)).orElse(null);
         assert electionBean != null;
         electionBean.setStatus(ElectionStatus.COMPLETED);
+        electionRepository.saveAndFlush(electionBean);
         log.info("ElectionService.java: exited endElection()");
     }
 
