@@ -24,9 +24,9 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_USER: ${POSTGRES_USER_VOTEZONE}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD_VOTEZONE}
-      POSTGRES_DB: ${POSTGRES_DB_VOTEZONE}
+      POSTGRES_USER: ${MAIN_DATABASE_USERNAME}
+      POSTGRES_PASSWORD: ${MAIN_DATABASE_PASSWORD}
+      POSTGRES_DB: ${MAIN_DATABASE_NAME}
     volumes:
       - primary-db-data:/var/lib/postgresql/votezone
 
@@ -36,9 +36,9 @@ services:
     ports:
       - "5433:5432"
     environment:
-      POSTGRES_USER: ${POSTGRES_USER_QUARTZ}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD_QUARTZ}
-      POSTGRES_DB: ${POSTGRES_DB_QUARTZ}
+      POSTGRES_USER: ${QUARTZ_DATABASE_USERNAME}
+      POSTGRES_PASSWORD: ${QUARTZ_DATABASE_PASSWORD}
+      POSTGRES_DB: ${QUARTZ_DATABASE_NAME}
     volumes:
       - quartz-db-data:/var/lib/postgresql/quartz
 
