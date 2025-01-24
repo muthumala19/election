@@ -18,7 +18,9 @@ class ElectionApplicationTests {
 	}
 
 	public static void loadEnv() {
-		Dotenv dotenv = Dotenv.load();
+		Dotenv dotenv = Dotenv.configure().directory("src/main/resources/")
+				.filename(".env")
+				.load();
 		dotenv.entries().forEach(entry -> System.setProperty(entry.getKey(), entry.getValue()));
 	}
 
