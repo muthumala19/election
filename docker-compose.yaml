@@ -1,0 +1,53 @@
+version: "3.8"
+services:
+  votezone:
+    image: votezone:latest
+    container_name: votezone_container
+    depends_on:
+      - votezone_primary_database
+      - votezone_quartz_database
+    build:
+      context: .
+    ports:
+      - "8088:8088"
+    environment:
+      - MAIN_DATABASE_HOST=votezone_db_container
+      - MAIN_DATABASE_PORT=5432
+
+      - QUARTZ_DATABASE_HOST=quartz_db_container
+      - QUARTZ_DATABASE_PORT=5432
+    volumes:
+      - votezone_logs:/app/logs
+
+  votezone_primary_database:
+    image: postgres:latest
+    container_name: votezone_db_container
+    ports:
+      - "5432:5432"
+    env_file:
+      - src/main/resources/.env
+    environment:
+      POSTGRES_USER: ${MAIN_DATABASE_USERNAME}
+      POSTGRES_PASSWORD: ${MAIN_DATABASE_PASSWORD}
+      POSTGRES_DB: ${MAIN_DATABASE_NAME}
+    volumes:
+      - primary-db-data:/var/lib/postgresql/votezone
+
+  votezone_quartz_database:
+    image: postgres:latest
+    container_name: quartz_db_container
+    ports:
+      - "5433:5432"
+    env_file:
+      - src/main/resources/.env
+    environment:
+      POSTGRES_USER: ${QUARTZ_DATABASE_USERNAME}
+      POSTGRES_PASSWORD: ${QUARTZ_DATABASE_PASSWORD}
+      POSTGRES_DB: ${QUARTZ_DATABASE_NAME}
+    volumes:
+      - quartz-db-data:/var/lib/postgresql/quartz
+
+volumes:
+  primary-db-data:
+  quartz-db-data:
+  votezone_logs:
