@@ -11,11 +11,10 @@ services:
     ports:
       - "8088:8088"
     environment:
-      - MAIN_DATABASE_HOST=votezone_db_container
-      - MAIN_DATABASE_PORT=5432
-
-      - QUARTZ_DATABASE_HOST=quartz_db_container
-      - QUARTZ_DATABASE_PORT=5432
+      - MAIN_DATABASE_HOST=${COMPOSE_MAIN_DATABASE_HOST}
+      - MAIN_DATABASE_PORT=${COMPOSE_MAIN_DATABASE_PORT}
+      - QUARTZ_DATABASE_HOST=${COMPOSE_QUARTZ_DATABASE_HOST}
+      - QUARTZ_DATABASE_PORT=${COMPOSE_QUARTZ_DATABASE_PORT}
     volumes:
       - votezone_logs:/app/logs
 
@@ -24,8 +23,6 @@ services:
     container_name: votezone_db_container
     ports:
       - "5432:5432"
-    env_file:
-      - src/main/resources/.env
     environment:
       POSTGRES_USER: ${MAIN_DATABASE_USERNAME}
       POSTGRES_PASSWORD: ${MAIN_DATABASE_PASSWORD}
@@ -38,8 +35,6 @@ services:
     container_name: quartz_db_container
     ports:
       - "5433:5432"
-    env_file:
-      - src/main/resources/.env
     environment:
       POSTGRES_USER: ${QUARTZ_DATABASE_USERNAME}
       POSTGRES_PASSWORD: ${QUARTZ_DATABASE_PASSWORD}
