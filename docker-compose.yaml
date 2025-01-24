@@ -20,7 +20,7 @@ services:
       - votezone_logs:/app/logs
 
   votezone_primary_database:
-    image: postgres:latest
+    image: postgres:14.5-alpine
     container_name: votezone_db_container
     ports:
       - "5432:5432"
@@ -34,7 +34,7 @@ services:
       - primary-db-data:/var/lib/postgresql/votezone
 
   votezone_quartz_database:
-    image: postgres:latest
+    image: postgres:14.5-alpine
     container_name: quartz_db_container
     ports:
       - "5433:5432"
